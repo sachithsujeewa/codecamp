@@ -3,7 +3,7 @@ using CodeCampInitiative.Data.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace CodeCampInitiative.Data.Repositories
 {
@@ -24,14 +24,14 @@ namespace CodeCampInitiative.Data.Repositories
             _table = context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return _table.ToList();
+            return await _table.ToListAsync();
         }
 
-        public T GetById(object id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            return _table.Find(id);
+            return await _table.FindAsync(id);
         }
 
         public void Insert(T obj)
@@ -45,15 +45,15 @@ namespace CodeCampInitiative.Data.Repositories
             _context.Entry(obj).State = EntityState.Modified;
         }
 
-        public void Delete(object id)
+        public void Delete(int id)
         {
             var existing = _table.Find(id);
             _table.Remove(existing ?? throw new InvalidOperationException());
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
