@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCampInitiative.Web", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCampInitiative.Data", "CodeCampInitiative.Data\CodeCampInitiative.Data.csproj", "{948B7979-5AEC-4CA6-9AD6-799BFCD8627B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCampInitiative.Library", "CodeCampInitiative.Library\CodeCampInitiative.Library.csproj", "{156412E9-C41F-4651-AC28-C03BE50CB8B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{948B7979-5AEC-4CA6-9AD6-799BFCD8627B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{948B7979-5AEC-4CA6-9AD6-799BFCD8627B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{948B7979-5AEC-4CA6-9AD6-799BFCD8627B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{156412E9-C41F-4651-AC28-C03BE50CB8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{156412E9-C41F-4651-AC28-C03BE50CB8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{156412E9-C41F-4651-AC28-C03BE50CB8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{156412E9-C41F-4651-AC28-C03BE50CB8B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
