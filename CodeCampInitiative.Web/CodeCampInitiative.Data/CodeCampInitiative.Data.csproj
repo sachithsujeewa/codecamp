@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\CodeCamp.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\Session.cs" />
+    <Compile Include="Entities\Speaker.cs" />
+    <Compile Include="Interfaces\IEntityBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

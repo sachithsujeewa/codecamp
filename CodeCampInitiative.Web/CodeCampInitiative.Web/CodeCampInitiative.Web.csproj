@@ -246,6 +246,16 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeCampInitiative.Data\CodeCampInitiative.Data.csproj">
+      <Project>{948b7979-5aec-4ca6-9ad6-799bfcd8627b}</Project>
+      <Name>CodeCampInitiative.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeCampInitiative.Library\CodeCampInitiative.Library.csproj">
+      <Project>{156412e9-c41f-4651-ac28-c03be50cb8b7}</Project>
+      <Name>CodeCampInitiative.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
