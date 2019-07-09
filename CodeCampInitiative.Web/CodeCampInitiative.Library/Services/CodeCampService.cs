@@ -10,10 +10,10 @@ namespace CodeCampInitiative.Library.Services
 {
     public class CodeCampService
     {
-        private readonly IEntityRepository<CodeCamp> _repository;
+        private readonly ICodeCampRepository _repository;
         private readonly IMapper _mapper;
 
-        public CodeCampService(IEntityRepository<CodeCamp> repository, IMapper mapper)
+        public CodeCampService(ICodeCampRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -49,7 +49,7 @@ namespace CodeCampInitiative.Library.Services
             _repository.Update(_mapper.Map<CodeCamp>(codeCampModel));
             await _repository.SaveAsync();
 
-            return await GetCodeCamp(id);
+            return _mapper.Map<CodeCampModel>(await _repository.GetCampByMonikerAsync(codeCampModel.Moniker));
         }
 
 
