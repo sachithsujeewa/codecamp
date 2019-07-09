@@ -9,51 +9,51 @@ namespace CodeCampInitiative.Data.Repositories
 {
     public class EntityRepository<T> : IEntityRepository<T> where T : class, IEntityBase
     {
-        private readonly CodeCampDbContext _context = null;
-        private readonly DbSet<T> _table = null;
+        protected readonly CodeCampDbContext Context = null;
+        protected readonly DbSet<T> Table = null;
 
         public EntityRepository()
         {
-            this._context = new CodeCampDbContext();
-            _table = _context.Set<T>();
+            this.Context = new CodeCampDbContext();
+            Table = Context.Set<T>();
         }
 
         public EntityRepository(CodeCampDbContext context)
         {
-            _context = context;
-            _table = context.Set<T>();
+            Context = context;
+            Table = context.Set<T>();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _table.ToListAsync();
+            return await Table.ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _table.FindAsync(id);
+            return await Table.FindAsync(id);
         }
 
         public void Insert(T obj)
         {
-            _table.Add(obj);
+            Table.Add(obj);
         }
 
         public void Update(T obj)
         {
-            _table.Attach(obj);
-            _context.Entry(obj).State = EntityState.Modified;
+            Table.Attach(obj);
+            Context.Entry(obj).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            var existing = _table.Find(id);
-            _table.Remove(existing ?? throw new InvalidOperationException());
+            var existing = Table.Find(id);
+            Table.Remove(existing ?? throw new InvalidOperationException());
         }
 
         public async Task SaveAsync()
         {
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
     }
 }
