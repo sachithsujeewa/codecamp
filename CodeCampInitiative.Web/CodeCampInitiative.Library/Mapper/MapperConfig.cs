@@ -11,7 +11,7 @@ namespace CodeCampInitiative.Library.Mapper
             var config = new MapperConfiguration(cfg =>
             {
                 //Create all maps here
-                cfg.CreateMap<CodeCamp, CodeCampModel>();
+                cfg.CreateMap<CodeCamp, CodeCampModel>().ReverseMap();
                 cfg.CreateMap<Session, SessionModel>();
                 cfg.CreateMap<Speaker, SpeakerModel>();
             });

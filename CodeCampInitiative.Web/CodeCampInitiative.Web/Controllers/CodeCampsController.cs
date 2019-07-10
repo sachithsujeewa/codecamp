@@ -15,7 +15,7 @@ namespace CodeCampInitiative.Web.Controllers
         {
             _codeCampService = codeCampService;
         }
-         
+
         // GET: api/CodeCamps
         public async Task<IHttpActionResult> GetCodeCamps(bool includeSessions = false)
         {
@@ -32,7 +32,7 @@ namespace CodeCampInitiative.Web.Controllers
         }
 
         // GET: api/CodeCamps/moniker
-        [Route("{moniker}")]
+        [Route("{moniker}", Name = "GetCodeCamp")]
         public async Task<IHttpActionResult> GetCodeCamp(string moniker)
         {
             try
@@ -49,10 +49,11 @@ namespace CodeCampInitiative.Web.Controllers
 
         // POST: api/CodeCamps
         public async Task<IHttpActionResult> PostCodeCamp(CodeCampModel codeCampModel)
-        {
+        {  
             try
             {
-                return Ok(await _codeCampService.AddNewCodeCamp(codeCampModel));
+                var createdModel = await _codeCampService.AddNewCodeCamp(codeCampModel);
+                return CreatedAtRoute("GetCodeCamp", new { moniker = createdModel.Moniker }, createdModel);
             }
             catch (Exception exception)
             {
