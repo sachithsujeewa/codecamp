@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampInitiative.Library.Services
 {
-    public class CodeCampService
+    public class CodeCampService : ICodeCampService
     {
         private readonly ICodeCampRepository _repository;
         private readonly IMapper _mapper;
@@ -24,24 +24,24 @@ namespace CodeCampInitiative.Library.Services
             return _mapper.Map<IEnumerable<CodeCampModel>>(await _repository.GetAllAsync());
         }
 
-        public async Task<CodeCampModel> GetCodeCamp(int id)
+        public async Task<CodeCampModel> GetCodeCamp(string moniker)
         {
-            if (id == 0)
+            if (moniker == null)
             {
-                throw new ArgumentNullException(nameof(id));
+                throw new ArgumentNullException(nameof(moniker));
             }
 
-            return _mapper.Map<CodeCampModel>(await _repository.GetByIdAsync(id));
+            return _mapper.Map<CodeCampModel>(await _repository.GetCampByMonikerAsync(moniker));
         }
 
-        public async Task<CodeCampModel> UpdateCodeCamp(int id, CodeCampModel codeCampModel)
+        public async Task<CodeCampModel> UpdateCodeCamp(CodeCampModel codeCampModel)
         {
-            if (id == 0 || codeCampModel == null)
+            if (codeCampModel == null)
             {
                 throw new ArgumentNullException(nameof(codeCampModel));
             }
 
-            if (!await this.CodeCampExists(id))
+            if (!await this.CodeCampExists(codeCampModel.Moniker))
             {
                 throw new InvalidOperationException();
             }
@@ -53,38 +53,49 @@ namespace CodeCampInitiative.Library.Services
         }
 
 
-        public async Task<CodeCampModel> PostCodeCamp(CodeCampModel codeCampModel)
+        public async Task<CodeCampModel> AddNewCodeCamp(CodeCampModel codeCampModel)
         {
             if (codeCampModel == null)
             {
                 throw new ArgumentNullException(nameof(codeCampModel));
             }
+
+            if (await this.CodeCampExists(codeCampModel.Moniker))
+            {
+                throw new InvalidOperationException("Moniker should be unique");
+            }
+
             var codeCamp = _mapper.Map<CodeCamp>(codeCampModel);
             _repository.Insert(codeCamp);
             await _repository.SaveAsync();
 
-            return await GetCodeCamp(codeCamp.Id);
+            return await GetCodeCamp(codeCampModel.Moniker);
         }
 
-        public async Task DeleteCodeCamp(int id)
+        public async Task DeleteCodeCamp(string moniker)
         {
-            if (id == 0)
+            if (moniker == null)
             {
-                throw new ArgumentNullException(nameof(id));
+                throw new ArgumentNullException(nameof(moniker));
             }
 
-            if (await this.CodeCampExists(id))
+            var camp = await this.CodeCampIfExists(moniker);
+            if (camp != null)
             {
-                _repository.Delete(id);
+                _repository.Delete(camp.Id);
                 await _repository.SaveAsync();
             }
 
         }
 
-
-        private async Task<bool> CodeCampExists(int id)
+        private async Task<bool> CodeCampExists(string moniker)
         {
-            return await _repository.GetByIdAsync(id) != null;
+            return await _repository.GetCampByMonikerAsync(moniker) != null;
+        }
+
+        private async Task<CodeCamp> CodeCampIfExists(string moniker)
+        {
+            return await _repository.GetCampByMonikerAsync(moniker);
         }
     }
 }
