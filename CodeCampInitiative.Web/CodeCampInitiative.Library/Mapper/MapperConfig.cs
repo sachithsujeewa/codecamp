@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CodeCampInitiative.Data.Entities;
 using CodeCampInitiative.Data.Models;
 
@@ -17,10 +12,12 @@ namespace CodeCampInitiative.Library.Mapper
             {
                 //Create all maps here
                 cfg.CreateMap<CodeCamp, CodeCampModel>();
+                cfg.CreateMap<Session, SessionModel>();
+                cfg.CreateMap<Speaker, SpeakerModel>();
             });
 
             return config.CreateMapper();
         }
-        
+
     }
 }

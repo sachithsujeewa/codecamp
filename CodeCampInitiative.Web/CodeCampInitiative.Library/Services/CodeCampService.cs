@@ -19,9 +19,9 @@ namespace CodeCampInitiative.Library.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CodeCampModel>> GetCodeCamps()
+        public async Task<IEnumerable<CodeCampModel>> GetCodeCamps(bool includeSessions)
         {
-            return _mapper.Map<IEnumerable<CodeCampModel>>(await _repository.GetAllAsync());
+            return _mapper.Map<IEnumerable<CodeCampModel>>(await _repository.GetAllAsync(includeSessions));
         }
 
         public async Task<CodeCampModel> GetCodeCamp(string moniker)
@@ -43,7 +43,7 @@ namespace CodeCampInitiative.Library.Services
 
             if (!await this.CodeCampExists(codeCampModel.Moniker))
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Cannot find a code camp by given moniker");
             }
 
             _repository.Update(_mapper.Map<CodeCamp>(codeCampModel));

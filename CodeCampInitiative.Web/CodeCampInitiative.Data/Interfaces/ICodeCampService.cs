@@ -6,7 +6,7 @@ namespace CodeCampInitiative.Data.Interfaces
 {
     public interface ICodeCampService
     {
-        Task<IEnumerable<CodeCampModel>> GetCodeCamps();
+        Task<IEnumerable<CodeCampModel>> GetCodeCamps(bool includeSessions);
         Task<CodeCampModel> GetCodeCamp(string moniker);
         Task<CodeCampModel> UpdateCodeCamp(CodeCampModel codeCampModel);
         Task<CodeCampModel> AddNewCodeCamp(CodeCampModel codeCampModel);

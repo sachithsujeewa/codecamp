@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace CodeCampInitiative.Web.Controllers
 {
+    [RoutePrefix("api/codeCamps")]
     public class CodeCampsController : ApiController
     {
         private readonly ICodeCampService _codeCampService;
@@ -14,13 +15,13 @@ namespace CodeCampInitiative.Web.Controllers
         {
             _codeCampService = codeCampService;
         }
-
+         
         // GET: api/CodeCamps
-        public async Task<IHttpActionResult> GetCodeCamps()
+        public async Task<IHttpActionResult> GetCodeCamps(bool includeSessions = false)
         {
             try
             {
-                return Ok(await _codeCampService.GetCodeCamps());
+                return Ok(await _codeCampService.GetCodeCamps(includeSessions));
             }
             catch (Exception exception)
             {
@@ -36,7 +37,8 @@ namespace CodeCampInitiative.Web.Controllers
         {
             try
             {
-                return Ok(await _codeCampService.GetCodeCamp(moniker));
+                var camp = await _codeCampService.GetCodeCamp(moniker);
+                return camp == null ? (IHttpActionResult)NotFound() : Ok(camp);
             }
             catch (Exception exception)
             {
