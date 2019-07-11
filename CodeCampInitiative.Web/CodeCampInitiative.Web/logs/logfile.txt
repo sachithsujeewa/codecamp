@@ -1,3 +1,58 @@
 2019-07-11 12:55:45.8864 CodeCampInitiative.Web.Controllers.CodeCampsController System.Collections.Generic.List`1[CodeCampInitiative.Data.Models.CodeCampModel]
 2019-07-11 13:02:59.8274 CodeCampInitiative.Web.Controllers.CodeCampsController System.Collections.Generic.List`1[CodeCampInitiative.Data.Models.CodeCampModel]
 2019-07-11 13:25:44.2924 CodeCampInitiative.Web.Controllers.CodeCampsController [{"Name":"99x code camp of the year","Moniker":"99xfirstcodecamp22","EventDate":"2019-01-08T00:00:00","Length":2,"LocationVenueName":null,"LocationAddress1":null,"LocationAddress2":null,"LocationAddress3":null,"LocationCityTown":null,"LocationStateProvince":null,"LocationPostalCode":null,"LocationCountry":null,"Sessions":[{"Title":"Solid Principles","Abstract":"this session will cover basic design principles called solid principles","Level":3,"Speaker":{"FirstName":"sachith","LastName":"jayasinghe","MiddleName":"sujeewa","Company":"99x","CompanyUrl":"www.99x.lk","BlogUrl":"www.blog.99x.lk","Twitter":"twitter.lk","GitHub":"github.lk"}}]},{"Name":"99x code camp2","Moniker":"99xfirstcodecamp2","EventDate":"2019-01-02T00:00:00","Length":2,"LocationVenueName":null,"LocationAddress1":null,"LocationAddress2":null,"LocationAddress3":null,"LocationCityTown":null,"LocationStateProvince":null,"LocationPostalCode":null,"LocationCountry":null,"Sessions":[]}]
+2019-07-11 20:56:01.2126 CodeCampInitiative.Web.Controllers.SessionController [{"Id":"1","Title":"Solid Principles","Abstract":"this session will cover basic design principles called solid principles","Level":3,"Speaker":null}]
+2019-07-11 20:56:23.5669 CodeCampInitiative.Web.Controllers.SessionController AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Session -> CodeCampModel
+CodeCampInitiative.Data.Entities.Session -> CodeCampInitiative.Data.Models.CodeCampModel
+   at lambda_method(Closure , Session , CodeCampModel , ResolutionContext )
+   at lambda_method(Closure , Object , Object , ResolutionContext )
+   at AutoMapper.Mapper.AutoMapper.IMapper.Map[TDestination](Object source) in C:\projects\automapper\src\AutoMapper\Mapper.cs:line 212
+   at CodeCampInitiative.Library.Services.SessionService.<GetSessionByMoniker>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Library\Services\SessionService.cs:line 64
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at CodeCampInitiative.Web.Controllers.SessionController.<GetSession>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Web\Controllers\SessionController.cs:line 70AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Session -> CodeCampModel
+CodeCampInitiative.Data.Entities.Session -> CodeCampInitiative.Data.Models.CodeCampModel
+   at lambda_method(Closure , Session , CodeCampModel , ResolutionContext )
+   at lambda_method(Closure , Object , Object , ResolutionContext )
+   at AutoMapper.Mapper.AutoMapper.IMapper.Map[TDestination](Object source) in C:\projects\automapper\src\AutoMapper\Mapper.cs:line 212
+   at CodeCampInitiative.Library.Services.SessionService.<GetSessionByMoniker>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Library\Services\SessionService.cs:line 64
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at CodeCampInitiative.Web.Controllers.SessionController.<GetSession>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Web\Controllers\SessionController.cs:line 70
+2019-07-11 20:57:57.5649 CodeCampInitiative.Web.Controllers.SessionController AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Session -> CodeCampModel
+CodeCampInitiative.Data.Entities.Session -> CodeCampInitiative.Data.Models.CodeCampModel
+   at lambda_method(Closure , Session , CodeCampModel , ResolutionContext )
+   at lambda_method(Closure , Object , Object , ResolutionContext )
+   at AutoMapper.Mapper.AutoMapper.IMapper.Map[TDestination](Object source) in C:\projects\automapper\src\AutoMapper\Mapper.cs:line 212
+   at CodeCampInitiative.Library.Services.SessionService.<GetSessionByMoniker>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Library\Services\SessionService.cs:line 64
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at CodeCampInitiative.Web.Controllers.SessionController.<GetSession>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Web\Controllers\SessionController.cs:line 70AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Session -> CodeCampModel
+CodeCampInitiative.Data.Entities.Session -> CodeCampInitiative.Data.Models.CodeCampModel
+   at lambda_method(Closure , Session , CodeCampModel , ResolutionContext )
+   at lambda_method(Closure , Object , Object , ResolutionContext )
+   at AutoMapper.Mapper.AutoMapper.IMapper.Map[TDestination](Object source) in C:\projects\automapper\src\AutoMapper\Mapper.cs:line 212
+   at CodeCampInitiative.Library.Services.SessionService.<GetSessionByMoniker>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Library\Services\SessionService.cs:line 64
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at CodeCampInitiative.Web.Controllers.SessionController.<GetSession>d__4.MoveNext() in C:\Users\sachithj\source\repos\code-camp-initiative\CodeCampInitiative.Web\CodeCampInitiative.Web\Controllers\SessionController.cs:line 70

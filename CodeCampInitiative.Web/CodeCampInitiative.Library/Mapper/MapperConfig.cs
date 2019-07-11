@@ -19,7 +19,7 @@
             {
                 //Create all maps here
                 cfg.CreateMap<CodeCamp, CodeCampModel>().ReverseMap();
-                cfg.CreateMap<Session, SessionModel>();
+                cfg.CreateMap<Session, SessionModel>().ReverseMap();
                 cfg.CreateMap<Speaker, SpeakerModel>();
             });
 
