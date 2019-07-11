@@ -18,6 +18,8 @@
         /// </summary>
         private readonly ICodeCampService _codeCampService;
 
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeCampsController"/> class.
         /// </summary>
@@ -32,16 +34,20 @@
         /// Gets the code camps.
         /// </summary>
         /// <param name="includeSessions">if set to <c>true</c> [include sessions].</param>
-        /// <returns>list of code camps, with session and speaker details if flag is on</returns>
+        /// <returns>
+        /// list of code camps, with session and speaker details if flag is on
+        /// </returns>
         public async Task<IHttpActionResult> GetCodeCamps(bool includeSessions = false)
         {
             try
             {
-                return Ok(await _codeCampService.GetCodeCamps(includeSessions));
+                var codeCampModels = await _codeCampService.GetCodeCamps(includeSessions);
+                Logger.Info(Newtonsoft.Json.JsonConvert.SerializeObject(codeCampModels));
+                return Ok(codeCampModels);
             }
             catch (Exception exception)
             {
-                //TODO logging and remove the whole exception
+                Logger.Error(exception);
                 return InternalServerError(exception);
             }
 
@@ -63,7 +69,7 @@
             }
             catch (Exception exception)
             {
-                //TODO logging and remove the whole exception
+                Logger.Error(exception);
                 return InternalServerError(exception);
             }
         }
@@ -91,7 +97,7 @@
             }
             catch (Exception exception)
             {
-                //TODO logging and remove the whole exception
+                Logger.Error(exception);
                 return InternalServerError(exception);
             }
 
@@ -128,7 +134,7 @@
             }
             catch (Exception exception)
             {
-                //TODO logging and remove the whole exception
+                Logger.Error(exception);
                 return InternalServerError(exception);
             }
 
@@ -158,7 +164,7 @@
             }
             catch (Exception exception)
             {
-                //TODO logging and remove the whole exception
+                Logger.Error(exception);
                 return InternalServerError(exception);
             }
         }
