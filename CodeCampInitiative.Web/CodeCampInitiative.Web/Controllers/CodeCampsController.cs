@@ -49,17 +49,27 @@ namespace CodeCampInitiative.Web.Controllers
 
         // POST: api/CodeCamps
         public async Task<IHttpActionResult> PostCodeCamp(CodeCampModel codeCampModel)
-        {  
+        {
             try
             {
-                var createdModel = await _codeCampService.AddNewCodeCamp(codeCampModel);
-                return CreatedAtRoute("GetCodeCamp", new { moniker = createdModel.Moniker }, createdModel);
+                if (await GetCodeCamp(codeCampModel.Moniker) != null)
+                {
+                    ModelState.AddModelError("Moniker", "Moniker should be unique");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var createdModel = await _codeCampService.AddNewCodeCamp(codeCampModel);
+                    return CreatedAtRoute("GetCodeCamp", new { moniker = createdModel.Moniker }, createdModel);
+                }
             }
             catch (Exception exception)
             {
                 //TODO logging and remove the whole exception
                 return InternalServerError(exception);
             }
+
+            return BadRequest(ModelState);
         }
 
         // PUT: api/CodeCamps/5
