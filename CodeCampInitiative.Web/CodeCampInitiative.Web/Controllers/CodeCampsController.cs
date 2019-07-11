@@ -1,22 +1,38 @@
-﻿using CodeCampInitiative.Data.Interfaces;
-using CodeCampInitiative.Data.Models;
-using System;
-using System.Threading.Tasks;
-using System.Web.Http;
-
-namespace CodeCampInitiative.Web.Controllers
+﻿namespace CodeCampInitiative.Web.Controllers
 {
+    using Data.Interfaces;
+    using Data.Models;
+    using System;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+
+    /// <summary>
+    /// Code camp controller
+    /// </summary>
+    /// <seealso cref="System.Web.Http.ApiController" />
     [RoutePrefix("api/codeCamps")]
     public class CodeCampsController : ApiController
     {
+        /// <summary>
+        /// The code camp service
+        /// </summary>
         private readonly ICodeCampService _codeCampService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CodeCampsController"/> class.
+        /// </summary>
+        /// <param name="codeCampService">The code camp service.</param>
         public CodeCampsController(ICodeCampService codeCampService)
         {
             _codeCampService = codeCampService;
         }
 
         // GET: api/CodeCamps
+        /// <summary>
+        /// Gets the code camps.
+        /// </summary>
+        /// <param name="includeSessions">if set to <c>true</c> [include sessions].</param>
+        /// <returns>list of code camps, with session and speaker details if flag is on</returns>
         public async Task<IHttpActionResult> GetCodeCamps(bool includeSessions = false)
         {
             try
@@ -32,6 +48,11 @@ namespace CodeCampInitiative.Web.Controllers
         }
 
         // GET: api/CodeCamps/moniker
+        /// <summary>
+        /// Gets the code camp.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <returns>code camp model by filtering moniker</returns>
         [Route("{moniker}", Name = "GetCodeCamp")]
         public async Task<IHttpActionResult> GetCodeCamp(string moniker)
         {
@@ -77,7 +98,7 @@ namespace CodeCampInitiative.Web.Controllers
             return BadRequest(ModelState);
         }
 
-
+        // PUT: api/CodeCamps/moniker
         /// <summary>Puts the code camp.</summary>
         /// <param name="moniker">The moniker.</param>
         /// <param name="codeCampModel">The code camp model.</param>
@@ -123,7 +144,6 @@ namespace CodeCampInitiative.Web.Controllers
         /// <param name="moniker">The moniker.</param>
         /// <returns>ok action result</returns>
         [Route("{moniker}")]
-
         public async Task<IHttpActionResult> DeleteCodeCamp(string moniker)
         {
             try

@@ -1,11 +1,18 @@
-﻿using AutoMapper;
-using CodeCampInitiative.Data.Entities;
-using CodeCampInitiative.Data.Models;
-
-namespace CodeCampInitiative.Library.Mapper
+﻿namespace CodeCampInitiative.Library.Mapper
 {
+    using AutoMapper;
+    using Data.Entities;
+    using Data.Models;
+
+    /// <summary>
+    /// use to map database entities to view models and vice versa
+    /// </summary>
     public static class MapperConfig
     {
+        /// <summary>
+        /// Gets the mapper.
+        /// </summary>
+        /// <returns></returns>
         public static IMapper GetMapper()
         {
             var config = new MapperConfiguration(cfg =>

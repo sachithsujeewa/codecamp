@@ -1,14 +1,25 @@
-﻿using CodeCampInitiative.Data.Entities;
-using CodeCampInitiative.Data.Interfaces;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CodeCampInitiative.Data.Repositories
+﻿namespace CodeCampInitiative.Data.Repositories
 {
+    using Entities;
+    using Interfaces;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// implement repository methods specialized to code camp domain 
+    /// </summary>
+    /// <seealso cref="CodeCampInitiative.Data.Repositories.EntityRepository{CodeCampInitiative.Data.Entities.CodeCamp}" />
+    /// <seealso cref="CodeCampInitiative.Data.Interfaces.ICodeCampRepository" />
     public class CodeCampRepository : EntityRepository<CodeCamp>, ICodeCampRepository
     {
+        /// <summary>
+        /// Gets the camp by moniker asynchronous.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <param name="includeSessions">if set to <c>true</c> [include sessions].</param>
+        /// <returns>code camp object</returns>
         public async Task<CodeCamp> GetCampByMonikerAsync(string moniker, bool includeSessions = false)
         {
             var query = Table.Include(c => c.Location);
@@ -23,6 +34,12 @@ namespace CodeCampInitiative.Data.Repositories
             return await query.FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Gets all asynchronous.
+        /// overloaded base class method for support query string
+        /// </summary>
+        /// <param name="includeSessions">if set to <c>true</c> [include sessions].</param>
+        /// <returns>list of code camp objects</returns>
         public async Task<IEnumerable<CodeCamp>> GetAllAsync(bool includeSessions = false)
         {
             var query = Table.Include(c => c.Location);

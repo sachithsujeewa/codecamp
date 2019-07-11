@@ -1,29 +1,56 @@
-﻿using AutoMapper;
-using CodeCampInitiative.Data.Entities;
-using CodeCampInitiative.Data.Interfaces;
-using CodeCampInitiative.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace CodeCampInitiative.Library.Services
+﻿namespace CodeCampInitiative.Library.Services
 {
+    using AutoMapper;
+    using Data.Entities;
+    using Data.Interfaces;
+    using Data.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// encapsulate code camp business logic under this service class
+    /// </summary>
+    /// <seealso cref="CodeCampInitiative.Data.Interfaces.ICodeCampService" />
     public class CodeCampService : ICodeCampService
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
         private readonly ICodeCampRepository _repository;
+
+        /// <summary>
+        /// The mapper maps data objects to model and vice versa 
+        /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CodeCampService"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
+        /// <param name="mapper">The mapper.</param>
         public CodeCampService(ICodeCampRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets the code camps.
+        /// </summary>
+        /// <param name="includeSessions">if set to <c>true</c> [include sessions].</param>
+        /// <returns>list of code camp models</returns>
         public async Task<IEnumerable<CodeCampModel>> GetCodeCamps(bool includeSessions)
         {
             return _mapper.Map<IEnumerable<CodeCampModel>>(await _repository.GetAllAsync(includeSessions));
         }
 
+        /// <summary>
+        /// Gets the code camp.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <returns>code camp model for given moniker</returns>
+        /// <exception cref="ArgumentNullException">moniker</exception>
         public async Task<CodeCampModel> GetCodeCamp(string moniker)
         {
             if (moniker == null)
@@ -61,6 +88,13 @@ namespace CodeCampInitiative.Library.Services
         }
 
 
+        /// <summary>
+        /// Adds the new code camp.
+        /// </summary>
+        /// <param name="codeCampModel">The code camp model.</param>
+        /// <returns>created code camp model</returns>
+        /// <exception cref="ArgumentNullException">codeCampModel</exception>
+        /// <exception cref="InvalidOperationException">Moniker should be unique</exception>
         public async Task<CodeCampModel> AddNewCodeCamp(CodeCampModel codeCampModel)
         {
             if (codeCampModel == null)
@@ -101,11 +135,21 @@ namespace CodeCampInitiative.Library.Services
             }
         }
 
+        /// <summary>
+        /// Codes the camp exists.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <returns>code camp exist or not</returns>
         private async Task<bool> CodeCampExists(string moniker)
         {
             return await _repository.GetCampByMonikerAsync(moniker) != null;
         }
 
+        /// <summary>
+        /// Codes the camp if exists.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <returns>if code camp exist this returns the code camp</returns>
         private async Task<CodeCamp> CodeCampIfExists(string moniker)
         {
             return await _repository.GetCampByMonikerAsync(moniker);
