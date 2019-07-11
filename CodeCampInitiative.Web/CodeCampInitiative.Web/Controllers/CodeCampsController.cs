@@ -93,7 +93,8 @@ namespace CodeCampInitiative.Web.Controllers
                 }
 
                 // if moniker changed then new moniker unique check
-                if (!string.Equals(moniker, codeCampModel.Moniker) && await _codeCampService.GetCodeCamp(codeCampModel.Moniker) != null)
+                if (!string.Equals(moniker, codeCampModel.Moniker) &&
+                    await _codeCampService.GetCodeCamp(codeCampModel.Moniker) != null)
                 {
                     ModelState.AddModelError("Moniker", "Moniker should be unique");
                 }
@@ -111,39 +112,36 @@ namespace CodeCampInitiative.Web.Controllers
             }
 
             return BadRequest(ModelState);
-
         }
 
 
 
-        //// DELETE: api/CodeCamps/5
-        //[ResponseType(typeof(CodeCamp))]
-        //public IHttpActionResult DeleteCodeCamp(int id)
-        //{
-        //    CodeCamp codeCamp = db.CodeCamps.Find(id);
-        //    if (codeCamp == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/CodeCamps/moniker
+        /// <summary>
+        /// Deletes the code camp.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <returns>ok action result</returns>
+        [Route("{moniker}")]
 
-        //    db.CodeCamps.Remove(codeCamp);
-        //    db.SaveChanges();
+        public async Task<IHttpActionResult> DeleteCodeCamp(string moniker)
+        {
+            try
+            {
+                if (await _codeCampService.GetCodeCamp(moniker) == null)
+                {
+                    return NotFound();
+                }
 
-        //    return Ok(codeCamp);
-        //}
+                await _codeCampService.DeleteCodeCamp(moniker);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                //TODO logging and remove the whole exception
+                return InternalServerError(exception);
+            }
+        }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool CodeCampExists(int id)
-        //{
-        //    return db.CodeCamps.Count(e => e.Id == id) > 0;
-        //}
     }
 }

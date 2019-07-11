@@ -80,6 +80,12 @@ namespace CodeCampInitiative.Library.Services
             return await GetCodeCamp(codeCampModel.Moniker);
         }
 
+        /// <summary>
+        /// Deletes the code camp.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">moniker</exception>
         public async Task DeleteCodeCamp(string moniker)
         {
             if (moniker == null)
@@ -93,7 +99,6 @@ namespace CodeCampInitiative.Library.Services
                 _repository.Delete(camp.Id);
                 await _repository.SaveAsync();
             }
-
         }
 
         private async Task<bool> CodeCampExists(string moniker)
