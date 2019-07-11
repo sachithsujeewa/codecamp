@@ -48,11 +48,16 @@ namespace CodeCampInitiative.Web.Controllers
         }
 
         // POST: api/CodeCamps
+        /// <summary>
+        /// Posts the code camp.
+        /// </summary>
+        /// <param name="codeCampModel">The code camp model.</param>
+        /// <returns>created code camp model</returns>
         public async Task<IHttpActionResult> PostCodeCamp(CodeCampModel codeCampModel)
         {
             try
             {
-                if (await GetCodeCamp(codeCampModel.Moniker) != null)
+                if (await _codeCampService.GetCodeCamp(codeCampModel.Moniker) != null)
                 {
                     ModelState.AddModelError("Moniker", "Moniker should be unique");
                 }
@@ -72,40 +77,42 @@ namespace CodeCampInitiative.Web.Controllers
             return BadRequest(ModelState);
         }
 
-        // PUT: api/CodeCamps/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutCodeCamp(int id, CodeCamp codeCamp)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
 
-        //    if (id != codeCamp.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        /// <summary>Puts the code camp.</summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <param name="codeCampModel">The code camp model.</param>
+        /// <returns>updated code camp model</returns>
+        [Route("{moniker}")]
+        public async Task<IHttpActionResult> PutCodeCamp(string moniker, CodeCampModel codeCampModel)
+        {
+            try
+            {
+                if (await _codeCampService.GetCodeCamp(moniker) == null)
+                {
+                    return NotFound();
+                }
 
-        //    db.Entry(codeCamp).State = EntityState.Modified;
+                // if moniker changed then new moniker unique check
+                if (!string.Equals(moniker, codeCampModel.Moniker) && await _codeCampService.GetCodeCamp(codeCampModel.Moniker) != null)
+                {
+                    ModelState.AddModelError("Moniker", "Moniker should be unique");
+                }
 
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CodeCampExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+                if (ModelState.IsValid)
+                {
+                    var createdModel = await _codeCampService.UpdateCodeCamp(moniker, codeCampModel);
+                    return CreatedAtRoute("GetCodeCamp", new { moniker = createdModel.Moniker }, createdModel);
+                }
+            }
+            catch (Exception exception)
+            {
+                //TODO logging and remove the whole exception
+                return InternalServerError(exception);
+            }
 
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
+            return BadRequest(ModelState);
+
+        }
 
 
 

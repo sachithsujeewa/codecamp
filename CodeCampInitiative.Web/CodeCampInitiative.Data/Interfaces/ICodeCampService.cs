@@ -8,7 +8,7 @@ namespace CodeCampInitiative.Data.Interfaces
     {
         Task<IEnumerable<CodeCampModel>> GetCodeCamps(bool includeSessions);
         Task<CodeCampModel> GetCodeCamp(string moniker);
-        Task<CodeCampModel> UpdateCodeCamp(CodeCampModel codeCampModel);
+        Task<CodeCampModel> UpdateCodeCamp(string moniker, CodeCampModel codeCampModel);
         Task<CodeCampModel> AddNewCodeCamp(CodeCampModel codeCampModel);
         Task DeleteCodeCamp(string moniker);
     }

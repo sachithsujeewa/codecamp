@@ -34,22 +34,30 @@ namespace CodeCampInitiative.Library.Services
             return _mapper.Map<CodeCampModel>(await _repository.GetCampByMonikerAsync(moniker));
         }
 
-        public async Task<CodeCampModel> UpdateCodeCamp(CodeCampModel codeCampModel)
+        /// <summary>  Updates the code camp.</summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <param name="codeCampModel">The code camp model.</param>
+        /// <returns>updated document camp model</returns>
+        /// <exception cref="ArgumentNullException">codeCampModel</exception>
+        /// <exception cref="InvalidOperationException">Cannot find a code camp by given moniker</exception>
+        public async Task<CodeCampModel> UpdateCodeCamp(string moniker, CodeCampModel codeCampModel)
         {
             if (codeCampModel == null)
             {
                 throw new ArgumentNullException(nameof(codeCampModel));
             }
 
-            if (!await this.CodeCampExists(codeCampModel.Moniker))
+            var camp = await this.CodeCampIfExists(moniker);
+            if (camp == null)
             {
                 throw new InvalidOperationException("Cannot find a code camp by given moniker");
             }
 
-            _repository.Update(_mapper.Map<CodeCamp>(codeCampModel));
+            _mapper.Map(codeCampModel, camp);
+
             await _repository.SaveAsync();
 
-            return _mapper.Map<CodeCampModel>(await _repository.GetCampByMonikerAsync(codeCampModel.Moniker));
+            return _mapper.Map<CodeCampModel>(camp);
         }
 
 
