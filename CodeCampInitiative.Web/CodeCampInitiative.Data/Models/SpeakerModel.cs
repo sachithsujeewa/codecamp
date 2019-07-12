@@ -6,6 +6,14 @@
     public class SpeakerModel
     {
         /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name.
         /// </summary>
         /// <value>

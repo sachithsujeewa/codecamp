@@ -1,4 +1,6 @@
-﻿namespace CodeCampInitiative.Web.Controllers
+﻿using CodeCampInitiative.Data.Models;
+
+namespace CodeCampInitiative.Web.Controllers
 {
     using Data.Interfaces;
     using System;
@@ -17,15 +19,19 @@
         /// </summary>
         private readonly ISessionService _sessionService;
 
+        private readonly ICodeCampService _codeCampService;
+
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeCampsController"/> class.
         /// </summary>
         /// <param name="sessionService"></param>
-        public SessionController(ISessionService sessionService)
+        /// <param name="codeCampService"></param>
+        public SessionController(ISessionService sessionService, ICodeCampService codeCampService)
         {
             _sessionService = sessionService;
+            _codeCampService = codeCampService;
         }
 
         // GET: api/CodeCamps/{moniker}/Sessions
@@ -77,35 +83,36 @@
             }
         }
 
-        //// POST: api/CodeCamps
-        ///// <summary>
-        ///// Posts the code camp.
-        ///// </summary>
-        ///// <param name="codeCampModel">The code camp model.</param>
-        ///// <returns>created code camp model</returns>
-        //public async Task<IHttpActionResult> PostCodeCamp(CodeCampModel codeCampModel)
-        //{
-        //    try
-        //    {
-        //        if (await _sessionService.GetCodeCamp(codeCampModel.Moniker) != null)
-        //        {
-        //            ModelState.AddModelError("Moniker", "Moniker should be unique");
-        //        }
+        // POST: api/CodeCamps
+        /// <summary>
+        /// Posts the code camp.
+        /// </summary>
+        /// <param name="moniker"></param>
+        /// <param name="sessionModel">The code camp model.</param>
+        /// <returns>created code camp model</returns>
+        [Route()]
+        public async Task<IHttpActionResult> PostSession(string moniker, SessionModel sessionModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var camp = await _codeCampService.GetCodeCamp(moniker);
+                    if (camp != null)
+                    {
+                        var createdModel = await _sessionService.AddNewSessionToACodeCamp(moniker, sessionModel);
+                        return CreatedAtRoute("GetSession", new { moniker = moniker, id = createdModel.Id }, createdModel);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+                return InternalServerError(exception);
+            }
 
-        //        if (ModelState.IsValid)
-        //        {
-        //            var createdModel = await _sessionService.AddNewCodeCamp(codeCampModel);
-        //            return CreatedAtRoute("GetCodeCamp", new { moniker = createdModel.Moniker }, createdModel);
-        //        }
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        Logger.Error(exception);
-        //        return InternalServerError(exception);
-        //    }
-
-        //    return BadRequest(ModelState);
-        //}
+            return BadRequest(ModelState);
+        }
 
         //// PUT: api/CodeCamps/moniker
         ///// <summary>Puts the code camp.</summary>

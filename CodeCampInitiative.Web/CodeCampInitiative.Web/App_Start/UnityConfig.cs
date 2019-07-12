@@ -17,6 +17,7 @@ namespace CodeCampInitiative.Web
             container.RegisterInstance(MapperConfig.GetMapper());
             container.RegisterType<ICodeCampService, CodeCampService>();
             container.RegisterType<ISessionRepository, SessionRepository>();
+            container.RegisterType<ISpeakerRepository, SpeakerRepository>();
             container.RegisterType<ISessionService, SessionService>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

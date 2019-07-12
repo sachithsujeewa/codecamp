@@ -22,5 +22,13 @@ namespace CodeCampInitiative.Data.Interfaces
         /// <param name="includeSpeaker">if set to <c>true</c> [include speaker].</param>
         /// <returns></returns>
         Task<SessionModel> GetSessionByMoniker(string moniker, int id, bool includeSpeaker = false);
+
+        /// <summary>
+        /// Adds the new session to a code camp.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <param name="sessionModel">The session model.</param>
+        /// <returns>returns the session model</returns>
+        Task<SessionModel> AddNewSessionToACodeCamp(string moniker, SessionModel sessionModel);
     }
 }

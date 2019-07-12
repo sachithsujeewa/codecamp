@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeCampInitiative.Data.Entities;
+using System;
 
 namespace CodeCampInitiative.Library.Services
 {
@@ -20,6 +21,16 @@ namespace CodeCampInitiative.Library.Services
         private readonly ISessionRepository _repository;
 
         /// <summary>
+        /// The code camp repository
+        /// </summary>
+        private readonly ICodeCampRepository _codeCampRepository;
+
+        /// <summary>
+        /// The speaker repository
+        /// </summary>
+        private readonly ISpeakerRepository _speakerRepository;
+
+        /// <summary>
         /// The mapper maps data objects to model and vice versa 
         /// </summary>
         private readonly IMapper _mapper;
@@ -28,10 +39,14 @@ namespace CodeCampInitiative.Library.Services
         /// Initializes a new instance of the <see cref="CodeCampService"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
+        /// <param name="codeCampRepository"></param>
+        /// <param name="speakerRepository"></param>
         /// <param name="mapper">The mapper.</param>
-        public SessionService(ISessionRepository repository, IMapper mapper)
+        public SessionService(ISessionRepository repository, ICodeCampRepository codeCampRepository, ISpeakerRepository speakerRepository, IMapper mapper)
         {
             _repository = repository;
+            _codeCampRepository = codeCampRepository;
+            _speakerRepository = speakerRepository;
             _mapper = mapper;
         }
 
@@ -62,6 +77,47 @@ namespace CodeCampInitiative.Library.Services
             }
 
             return _mapper.Map<SessionModel>(await _repository.GetSessionByMonikerAsync(moniker, id, includeSpeaker));
+        }
+
+        /// <summary>
+        /// Adds the new session to a code camp.
+        /// </summary>
+        /// <param name="moniker">The moniker.</param>
+        /// <param name="sessionModel">The session model.</param>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">moniker</exception>
+        public async Task<SessionModel> AddNewSessionToACodeCamp(string moniker, SessionModel sessionModel)
+        {
+            if (moniker == null)
+            {
+                throw new ArgumentNullException(nameof(moniker));
+            }
+
+            var camp = await _codeCampRepository.GetCampByMonikerAsync(moniker);
+            if (camp == null)
+            {
+                throw new InvalidOperationException("Cannot find a code camp by given moniker");
+            }
+
+            var session = _mapper.Map<Session>(sessionModel);
+            if (sessionModel.Speaker?.Id != null)
+            {
+                var speaker = await _speakerRepository.GetByIdAsync(sessionModel.Speaker.Id);
+                if (speaker == null)
+                {
+                    throw new InvalidOperationException("Cannot find a speaker for given Identifier");
+                }
+
+                session.Speaker = speaker;
+            }
+
+            session.CodeCamp = camp;
+            _repository.Insert(session);
+            await _repository.SaveAsync();
+
+            return _mapper.Map<SessionModel>(await _repository.GetSessionByMonikerAsync(moniker, session.Id, false));
+
         }
 
         ///// <summary>  Updates the code camp.</summary>
